@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+bookmarks-data.json
+theme-config.json
+user-settings.json
+.vite-ssg-temp
+index.html

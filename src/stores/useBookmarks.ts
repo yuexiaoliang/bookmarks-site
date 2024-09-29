@@ -31,20 +31,9 @@ export default defineStore('bookmarks', () => {
     }, {} as Record<string, BookmarkNode>)
   })
 
-  getBookmarks()
-  async function getBookmarks() {
-    window.addEventListener('message', (e) => {
-      if (typeof e.data !== 'object') return;
-      if (e.data?.source !== 'ext-message') return;
+  function setBookmarks(data: BookmarkNode[]) {
 
-      const { data, type } = e.data.data
-
-      if (type !== 'bookmarks-tree') return;
-
-      const d: BookmarkNode[] = data?.[0]?.children || []
-      bookmarks.value = d.map(item => deep(item))
-    })
-
+    bookmarks.value = data.map(item => deep(item))
 
     function deep(node: BookmarkNode, parent?: BookmarkNode) {
       const { children, ...bm } = node
@@ -73,5 +62,6 @@ export default defineStore('bookmarks', () => {
     bookmarks,
     flatBookmarks,
     bookmarksMap,
+    setBookmarks
   }
 })

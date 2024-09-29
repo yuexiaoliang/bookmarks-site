@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc -b && vite build",
+    "dev": "cross-env VITE_BUILD_TYPE=spa vite",
+    "build": "vue-tsc -b && cross-env VITE_BUILD_TYPE=spa vite build",
+    "build:ssg": "vue-tsc -b && cross-env VITE_BUILD_TYPE=ssg  vite-ssg build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -21,15 +22,19 @@
   "devDependencies": {
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^22.5.4",
+    "@unhead/vue": "^1.11.6",
     "@vitejs/plugin-vue": "^5.1.2",
     "@vitejs/plugin-vue-jsx": "^4.0.1",
     "chrome-types": "^0.1.301",
+    "cross-env": "^7.0.3",
     "sass-embedded": "^1.78.0",
     "typescript": "^5.5.3",
     "unplugin-auto-import": "^0.18.2",
     "unplugin-vue-components": "^0.27.4",
     "vite": "^5.4.1",
+    "vite-plugin-importmap": "^0.1.1",
     "vite-plugin-vue-devtools": "^7.4.6",
+    "vite-ssg": "^0.23.8",
     "vue-tsc": "^2.0.29"
   }
 }

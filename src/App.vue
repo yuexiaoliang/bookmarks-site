@@ -2,4 +2,6 @@
 import ThemeDefault from '@/themes/default/layout.vue';
 </script>
 
-<template><ThemeDefault /></template>
+<template>
+  <ThemeDefault />
+</template>

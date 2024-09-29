@@ -1,13 +1,12 @@
 import { useCssVar } from '@vueuse/core';
-import { watch } from 'vue';
+import { watch, useTemplateRef } from 'vue';
 import { kebabCase } from 'lodash-es'
 import useThemeConfig, { type ThemeConfig, baseCssVariables, asideCssVariables, headerCssVariables, searchCssVariables, linkCssVariables } from '@/stores/useThemeConfig'
 import { NAMESPACE } from '@/constants'
 
-const root = document.documentElement
-
 export function setLayoutCssVars() {
   const themeConfigStore = useThemeConfig();
+  const root = useTemplateRef('default-theme-layout')
 
   return {
     setLayout() {
