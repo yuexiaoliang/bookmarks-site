@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useElementSize } from '@vueuse/core';
 import Scrollbar from '@/components/scrollbar.vue';
 import useBookmarks, { BookmarkNode } from '@/stores/useBookmarks';
 import ThemeFooter from './footer.vue';
@@ -38,41 +39,53 @@ const onBreadcrumbItemClick = (bm: BookmarkNode, block: BookmarkNode) => {
     block.displayedChildren = bm.children;
   }
 };
+
+const footerRef = ref();
+const { height } = useElementSize(footerRef, { width: 0, height: 48 }, { box: 'border-box' });
 </script>
 
 <template>
   <Scrollbar :class="b()">
-    <section v-for="(blocks, index) in bookmarksStore.bookmarks" :class="b('group')">
-      <div v-for="block in blocks.children?.filter((menu) => !menu.url)" :id="block.id" :class="b('links')">
-        <div v-if="index > 0" :class="b('group-name')">{{ blocks.title }}</div>
+    <div
+      :class="b('content')"
+      :style="{
+        minHeight: `calc(100% - ${height}px)`
+      }"
+    >
+      <template v-for="(blocks, index) in bookmarksStore.bookmarks">
+        <section v-if="blocks.children?.length" :class="b('group')">
+          <div v-for="block in blocks.children?.filter((menu) => !menu.url)" :id="block.id" :class="b('links')">
+            <div v-if="index > 0" :class="b('group-name')">{{ blocks.title }}</div>
 
-        <t-card :title="block.title" header-bordered>
-          <t-breadcrumb v-if="breadcrumbs[block.id]" style="margin-bottom: 10px">
-            <t-breadcrumb-item v-for="(item, index) in breadcrumbs[block.id]" @click="onBreadcrumbItemClick(item, block)">
-              <template v-if="index === 0" #icon>
-                <FolderOpenIcon />
-              </template>
-              {{ item.title }}
-            </t-breadcrumb-item>
-          </t-breadcrumb>
+            <t-card :title="block.title" header-bordered>
+              <t-breadcrumb v-if="breadcrumbs[block.id]" style="margin-bottom: 10px">
+                <t-breadcrumb-item v-for="(item, index) in breadcrumbs[block.id]" @click="onBreadcrumbItemClick(item, block)">
+                  <template v-if="index === 0" #icon>
+                    <FolderOpenIcon />
+                  </template>
+                  {{ item.title }}
+                </t-breadcrumb-item>
+              </t-breadcrumb>
 
-          <t-space break-line>
-            <template v-for="bm in block.displayedChildren || block.children">
-              <a v-if="bm.url" :href="bm.url" :title="bm.title" :class="b('link')" target="_blank">
-                {{ bm.title }}
-              </a>
+              <t-space break-line>
+                <template v-for="bm in block.displayedChildren || block.children">
+                  <a v-if="bm.url" :href="bm.url" :title="bm.title" :class="b('link')" target="_blank" rel="noopener noreferrer nofollow">
+                    {{ bm.title }}
+                  </a>
 
-              <span v-else :title="bm.title" :class="b('link')" @click="onFolderClick(bm, block)">
-                <FolderIcon />
-                {{ bm.title }}
-              </span>
-            </template>
-          </t-space>
-        </t-card>
-      </div>
-    </section>
+                  <span v-else :title="bm.title" :class="b('link')" @click="onFolderClick(bm, block)">
+                    <FolderIcon />
+                    {{ bm.title }}
+                  </span>
+                </template>
+              </t-space>
+            </t-card>
+          </div>
+        </section>
+      </template>
+    </div>
 
-    <ThemeFooter />
+    <ThemeFooter ref="footerRef" />
   </Scrollbar>
 </template>
 
@@ -92,7 +105,8 @@ const onBreadcrumbItemClick = (bm: BookmarkNode, block: BookmarkNode) => {
   &__links {
     padding-top: 20px;
 
-    .t-space, .t-space-item {
+    .t-space,
+    .t-space-item {
       max-width: 100%;
     }
   }
@@ -127,7 +141,7 @@ const onBreadcrumbItemClick = (bm: BookmarkNode, block: BookmarkNode) => {
       color: var-value(link-hover-color);
       border-color: var-value(link-hover-border-color);
 
-      .t-icon: {
+      .t-icon {
         color: var-value(link-hover-icon-color);
       }
     }

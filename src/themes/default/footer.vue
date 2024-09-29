@@ -6,7 +6,7 @@ const b = bem('theme-layout-footer');
 
 <template>
   <div :class="b()">
-    <div :class="b('copyright')">© {{ new Date().getFullYear() }} 使用 <a href="https://github.com/wuxian-space/wuxianx-bookmarks" target="_blank" ref="noopener noreferrer nofollow">无限书签</a> 构建</div>
+    <div :class="b('copyright')">© {{ new Date().getFullYear() }} by <a href="https://bookmarks.wuxian.space" target="_blank" rel="noopener noreferrer nofollow">wuxianx-bookmarks</a></div>
   </div>
 </template>
 
@@ -14,6 +14,7 @@ const b = bem('theme-layout-footer');
 .#{b(theme-layout-footer)} {
   padding: 15px 0;
   color: var(--td-text-color-secondary);
+  font-size: 12px;
 
   &__copyright {
     text-align: center;

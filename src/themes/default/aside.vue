@@ -16,20 +16,22 @@ const onAnchorItemClick: AnchorProps['onClick'] = ({ e }) => {
 <template>
   <Scrollbar ref="default-theme-aside" :class="b()">
     <TAnchor :class="b('anchor')" :bounds="50" container=".b-theme-layout__main" @click="onAnchorItemClick">
-      <div v-for="menus in bookmarksStore.bookmarks" :class="b('group')">
-        <div :class="b('group-name')">{{ menus.title }}</div>
-        <nav :class="b('group-nav')" container=".b-theme-layout__main">
-          <template v-for="menu in menus.children">
-            <div class="t-anchor__item" v-if="menu.url">
-              <a :href="menu.url" :title="menu.title" class="t-anchor__item-link" target="_blank">
-                {{ menu.title }}
-                <ArrowRightUpIcon />
-              </a>
-            </div>
-            <t-anchor-item v-else :href="`#${menu.id}`" :title="menu.title" />
-          </template>
-        </nav>
-      </div>
+      <template v-for="menus in bookmarksStore.bookmarks">
+        <div v-if="menus.children?.length" :class="b('group')">
+          <div :class="b('group-name')">{{ menus.title }}</div>
+          <nav :class="b('group-nav')" container=".b-theme-layout__main">
+            <template v-for="menu in menus.children">
+              <div class="t-anchor__item" v-if="menu.url">
+                <a :href="menu.url" :title="menu.title" class="t-anchor__item-link" target="_blank" rel="noopener noreferrer nofollow">
+                  {{ menu.title }}
+                  <ArrowRightUpIcon />
+                </a>
+              </div>
+              <t-anchor-item v-else :href="`#${menu.id}`" :title="menu.title" />
+            </template>
+          </nav>
+        </div>
+      </template>
     </TAnchor>
   </Scrollbar>
 </template>
