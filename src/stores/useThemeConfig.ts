@@ -156,7 +156,7 @@ export default defineStore('theme-config', () => {
     ...linkCssVariables,
 
     title: '无限书签',
-    logo: '/logo.png',
+    logo: './logo.png',
   })
 
   return {
