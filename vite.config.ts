@@ -96,7 +96,7 @@ export default defineConfig({
 function createIndexHtml(): Plugin {
   return {
     name: 'create-index-html',
-    buildStart() {
+    config() {
       const temp = readFileSync(join(__dirname, 'index.temp.html'), 'utf-8')
 
       writeFileSync(join(__dirname, 'index.html'), temp.replace('SCRIPT_SRC', `./src/main.${importmapMark}.ts`))
@@ -107,7 +107,7 @@ function createIndexHtml(): Plugin {
 function initDataFiles(): Plugin {
   return {
     name: 'init-data-files',
-    buildStart() {
+    config() {
       // bookmarks-data.json
       if (!existsSync(join(__dirname, 'bookmarks-data.json'))) {
         writeFileSync(join(__dirname, 'bookmarks-data.json'), '[]')
