@@ -40,6 +40,6 @@ jobs:
         with:
           target_branch: gh-pages
           build_dir: dist
-          domain: 123.yuexiaoliang.com
+          fqdn: 123.yuexiaoliang.com
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
